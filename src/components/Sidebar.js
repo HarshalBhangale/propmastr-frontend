@@ -6,7 +6,7 @@ const navigate = useNavigate();
 
 const handleLogout = () => {
 // Perform any logout operations here, such as clearing authentication tokens
-navigate('/login');
+navigate('/');
 };
 
 return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -13,6 +13,14 @@ popupAnchor: [1, -34],
 shadowSize: [41, 41],
 });
 
+const RecenterAutomatically = ({ position }) => {
+const map = useMap();
+useEffect(() => {
+map.setView(position, map.getZoom());
+}, [map, position]); // Include map and position in dependency array
+return null;
+};
+
 const MapComponent = ({ position }) => {
 return (
 <div className="h-64 w-full">
@@ -21,8 +29,9 @@ return (
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     />
     <Marker position={position} icon={customIcon}>
-        <Popup>{position}</Popup>
+        <Popup>{`${position[0]}, ${position[1]}`}</Popup>
     </Marker>
+    <RecenterAutomatically position={position} />
     </MapContainer>
 </div>
 );
