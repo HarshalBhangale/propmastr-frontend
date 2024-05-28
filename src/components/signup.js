@@ -55,6 +55,15 @@ return (
         </button>
     </form>
     {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+    <p className="mt-4 text-center text-gray-600">
+        Already have an account?{' '}
+        <button
+        className="text-blue-500 hover:underline"
+        onClick={() => navigate('/login')}
+        >
+        Login
+        </button>
+    </p>
     </div>
 </div>
 );

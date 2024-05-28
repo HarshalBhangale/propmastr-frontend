@@ -12,18 +12,14 @@ const handleLogin = async (e) => {
 e.preventDefault();
 try {
     const response = await axios.post('http://localhost:5000/login', { username, password });
-    if (response && response.data) {
     setMessage(response.data.message);
     if (response.data.message === 'Login successful') {
-        setTimeout(() => {
+    setTimeout(() => {
         navigate('/valuation');
-        }, 1000);
-    }
-    } else {
-    setMessage('Unexpected error occurred');
+    }, 1000);
     }
 } catch (error) {
-    setMessage(error.response?.data?.error || 'Server error');
+    setMessage(error.response.data.error);
 }
 };
 
@@ -59,6 +55,15 @@ return (
         </button>
     </form>
     {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+    <p className="mt-4 text-center text-gray-600">
+        Don't have an account?{' '}
+        <button
+        className="text-blue-500 hover:underline"
+        onClick={() => navigate('/signup')}
+        >
+        Sign Up
+        </button>
+    </p>
     </div>
 </div>
 );
