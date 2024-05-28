@@ -194,6 +194,109 @@ import SearchHistory from './components/Search_history';
 
 
 
+// const App = () => {
+//   const [position, setPosition] = useState([51.505, -0.09]);
+//   const [data, setData] = useState({
+//     lat: 51.505,
+//     lng: -0.09,
+//     PPSQM: 10,
+//     SQM: 100,
+//     annualRental: 1200,
+//     annualExpenses: 300,
+//     netIncomeAfterExpenses: 900,
+//     capRate: 0.08,
+//     valuation: 11250,
+//   });
+
+//   const handleSearch = async (address) => {
+//     console.log('Search initiated for address:', address); // Debug log
+
+//     try {
+//       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
+//         params: {
+//           q: address,
+//           format: 'json',
+//         },
+//       });
+
+//       console.log('API response:', response.data); // Debug log
+
+//       if (response.data.length > 0) {
+//         const { lat, lon } = response.data[0];
+//         console.log('Location found:', lat, lon); // Debug log
+//         setPosition([parseFloat(lat), parseFloat(lon)]);
+//         setData({ ...data, lat: parseFloat(lat), lng: parseFloat(lon) });
+//       } else {
+//         alert('Location not found');
+//       }
+//     } catch (error) {
+//       console.error('Error fetching location data:', error);
+//       alert('Error fetching location data');
+//     }
+//   };
+
+//   const handleUpdate = async (updatedValues) => {
+//     try {
+//       const response = await axios.post('http://localhost:5000/valuation', {
+//         address: "test address",
+//         property_type: "office",
+//         industrial_size: 0,
+//         industrial_subtype: "none",
+//         office_grade: "A",
+//         distance: 3000,
+//         expense: updatedValues.annualExpenses / updatedValues.annualRental,
+//       });
+//       if (response.data.valuation) {
+//         const valuationData = response.data.valuation[0]; // assuming only one result for simplicity
+//         setData({
+//           ...updatedValues,
+//           lat: valuationData.latitude,
+//           lng: valuationData.longitude,
+//           netIncomeAfterExpenses: valuationData.net_income_after_expenses,
+//           valuation: valuationData.valuation,
+//         });
+//       } else {
+//         alert('Valuation data not found');
+//       }
+//     } catch (error) {
+//       console.error('Error updating valuation:', error);
+//       alert('Error updating valuation');
+//     }
+//   };
+
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<LandingPage />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/signup" element={<Signup />} />
+//         <Route
+//           path="/valuation"
+//           element={
+//             <div className="h-screen flex flex-col">
+//               <Navbar />
+//               <div className="flex-1 flex">
+//                 <Sidebar />
+//                 <div className="flex-1 p-4">
+//                   <SearchBar onSearch={handleSearch} />
+//                   {position && (
+//                     <div className="mt-4">
+//                       <MapComponent position={position} />
+//                       <CalculationTable data={data} onUpdate={handleUpdate} />
+//                     </div>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           }
+//         />
+//         <Route path="/search-history" element={<SearchHistory />} />
+//       </Routes>
+//     </Router>
+//   );
+// };
+
+// export default App;
 const App = () => {
   const [position, setPosition] = useState([51.505, -0.09]);
   const [data, setData] = useState({
@@ -209,8 +312,6 @@ const App = () => {
   });
 
   const handleSearch = async (address) => {
-    console.log('Search initiated for address:', address); // Debug log
-
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
@@ -219,11 +320,8 @@ const App = () => {
         },
       });
 
-      console.log('API response:', response.data); // Debug log
-
       if (response.data.length > 0) {
         const { lat, lon } = response.data[0];
-        console.log('Location found:', lat, lon); // Debug log
         setPosition([parseFloat(lat), parseFloat(lon)]);
         setData({ ...data, lat: parseFloat(lat), lng: parseFloat(lon) });
       } else {
@@ -238,14 +336,15 @@ const App = () => {
   const handleUpdate = async (updatedValues) => {
     try {
       const response = await axios.post('http://localhost:5000/valuation', {
-        address: "test address",
-        property_type: "office",
-        industrial_size: 0,
-        industrial_subtype: "none",
-        office_grade: "A",
-        distance: 3000,
+        address: "default address", // Change this to the actual address when available
+        property_type: "office", // Change this to the actual property type when available
+        industrial_size: 0, // Change this to the actual size if it's industrial
+        industrial_subtype: "", // Change this to the actual subtype if it's industrial
+        office_grade: "A", // Change this to the actual office grade if it's office
+        distance: 3000, // You can customize this distance parameter
         expense: updatedValues.annualExpenses / updatedValues.annualRental,
       });
+
       if (response.data.valuation) {
         const valuationData = response.data.valuation[0]; // assuming only one result for simplicity
         setData({
