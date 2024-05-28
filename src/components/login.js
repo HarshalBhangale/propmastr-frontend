@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [message, setMessage] = useState('');
+const navigate = useNavigate();
 
 const handleLogin = async (e) => {
 e.preventDefault();
 try {
     const response = await axios.post('http://localhost:5000/login', { username, password });
+    if (response && response.data) {
     setMessage(response.data.message);
+    if (response.data.message === 'Login successful') {
+        setTimeout(() => {
+        navigate('/valuation');
+        }, 1000);
+    }
+    } else {
+    setMessage('Unexpected error occurred');
+    }
 } catch (error) {
-    setMessage(error.response.data.error);
+    setMessage(error.response?.data?.error || 'Server error');
 }
 };
 

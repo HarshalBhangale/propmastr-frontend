@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import SearchBar from './components/SearchBar';
 import MapComponent from './components/MapComponent';
 import CalculationTable from './components/CalculationTable';
-
+import LandingPage from './components/LandingPage';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import SearchHistory from './components/Search_history';
 const App = () => {
   const [position, setPosition] = useState(null);
   const [data, setData] = useState({
@@ -61,21 +65,34 @@ const App = () => {
   };
 
   return (
-    <div className="h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1 flex">
-        <Sidebar />
-        <div className="flex-1 p-4">
-          <SearchBar onSearch={handleSearch} />
-          {position && (
-            <div className="mt-4">
-              <MapComponent position={position} />
-              <CalculationTable data={data} onUpdate={handleUpdate} />
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route
+          path="/valuation"
+          element={
+            <div className="h-screen flex flex-col">
+              <Navbar />
+              <div className="flex-1 flex">
+                <Sidebar />
+                <div className="flex-1 p-4">
+                  <SearchBar onSearch={handleSearch} />
+                  {position && (
+                    <div className="mt-4">
+                      <MapComponent position={position} />
+                      <CalculationTable data={data} onUpdate={handleUpdate} />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          )}
-        </div>
-      </div>
-    </div>
+          }
+        />
+        <Route path="/search-history" element={<SearchHistory />} />
+      </Routes>
+    </Router>
   );
 };
 

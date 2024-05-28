@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
 const [username, setUsername] = useState('');
 const [password, setPassword] = useState('');
 const [message, setMessage] = useState('');
+const navigate = useNavigate();
 
 const handleSignup = async (e) => {
 e.preventDefault();
 try {
     const response = await axios.post('http://localhost:5000/register', { username, password });
     setMessage(response.data.message);
+    if (response.data.message === 'User registered successfully') {
+    setTimeout(() => {
+        navigate('/login');
+    }, 1000);
+    }
 } catch (error) {
     setMessage(error.response.data.error);
 }
