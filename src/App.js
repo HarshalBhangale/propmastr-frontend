@@ -7,8 +7,8 @@ import SearchBar from './components/SearchBar';
 import MapComponent from './components/MapComponent';
 import CalculationTable from './components/CalculationTable';
 import LandingPage from './components/LandingPage';
-import Login from './components/Login';
-import Signup from './components/Signup';
+import Login from './components/login';
+import Signup from './components/signup';
 import SearchHistory from './components/Search_history';
 // const App = () => {
 //   const [position, setPosition] = useState(null);
